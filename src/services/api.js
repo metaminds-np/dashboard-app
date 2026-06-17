@@ -50,14 +50,16 @@ export async function exchangeCode(code) {
   const body = new URLSearchParams({
     grant_type: 'authorization_code',
     code,
-    client_id: clientId,
-    client_secret: clientSecret,
     redirect_uri: redirectUri,
   });
+  const basic = btoa(`${clientId}:${clientSecret}`);
 
   const res = await fetch(tokenUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${basic}`,
+    },
     body,
   });
 
@@ -72,21 +74,25 @@ export async function refreshAccessToken() {
   const tokens = getTokens();
   if (!tokens || !tokens.refresh_token) throw new Error('No refresh token available');
 
+  console.log('[Auth] Refreshing access token...');
   const { clientId, clientSecret, tokenUrl } = config.oauth;
   const body = new URLSearchParams({
     grant_type: 'refresh_token',
     refresh_token: tokens.refresh_token,
-    client_id: clientId,
-    client_secret: clientSecret,
   });
+  const basic = btoa(`${clientId}:${clientSecret}`);
 
   const res = await fetch(tokenUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${basic}`,
+    },
     body,
   });
 
   if (!res.ok) {
+    console.error('[Auth] Refresh failed, logging out');
     logout();
     throw new Error('Token refresh failed');
   }
@@ -97,10 +103,11 @@ export async function refreshAccessToken() {
     expires_in: data.expires_in,
     refresh_token: data.refresh_token || tokens.refresh_token,
   });
+  console.log('[Auth] Token refreshed successfully');
   return getTokens();
 }
 
-export async function fetchApi(endpoint) {
+async function request(method, endpoint, body) {
   let tokens = getTokens();
   if (!tokens) throw new Error('Not authenticated');
 
@@ -108,19 +115,33 @@ export async function fetchApi(endpoint) {
     tokens = await refreshAccessToken();
   }
 
-  const res = await fetch(`${config.api.baseUrl}${endpoint}`, {
+  const opts = {
+    method,
     headers: { Authorization: `Bearer ${tokens.access_token}` },
-  });
+  };
+  if (body) {
+    opts.headers['Content-Type'] = 'application/json';
+    opts.body = JSON.stringify(body);
+  }
+
+  const res = await fetch(`${config.api.baseUrl}${endpoint}`, opts);
 
   if (res.status === 401) {
     tokens = await refreshAccessToken();
-    const retry = await fetch(`${config.api.baseUrl}${endpoint}`, {
-      headers: { Authorization: `Bearer ${tokens.access_token}` },
-    });
+    opts.headers.Authorization = `Bearer ${tokens.access_token}`;
+    const retry = await fetch(`${config.api.baseUrl}${endpoint}`, opts);
     if (!retry.ok) throw new Error(`API error: ${retry.status}`);
     return retry.json();
   }
 
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
+}
+
+export function fetchApi(endpoint) {
+  return request('GET', endpoint);
+}
+
+export function fetchApiPost(endpoint, body) {
+  return request('POST', endpoint, body);
 }

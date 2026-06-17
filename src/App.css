@@ -89,6 +89,40 @@ body {
   font-size: 1.75rem;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-sm {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+}
+
+.token-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-family: monospace;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-dot.has-refresh {
+  background: #22c55e;
+}
+
+.status-dot.no-refresh {
+  background: #ef4444;
+}
+
 /* Status Bar */
 .status-bar {
   display: grid;
@@ -594,4 +628,223 @@ body {
 .docs-config td:last-child code,
 .docs-table td code {
   font-size: 0.82rem;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.filter-group label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.filter-group select,
+.filter-group input {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  color: #e2e8f0;
+  font-size: 0.85rem;
+  min-width: 160px;
+}
+
+.filter-group select[multiple] {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.tag-selects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-select-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+}
+
+.tag-label {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.tag-select-row select {
+  background: transparent;
+  border: none;
+  color: #e2e8f0;
+  font-size: 0.78rem;
+  padding: 0.2rem 0.3rem;
+  cursor: pointer;
+}
+
+.tag-select-row select:focus {
+  outline: none;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+/* Report Tree Table */
+.reports-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.rtr-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.rtr-card h3 {
+  font-size: 1.1rem;
+  color: #f1f5f9;
+  margin-bottom: 0.75rem;
+}
+
+.rtr-empty {
+  color: #64748b;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.rtr-scroll {
+  overflow-x: auto;
+}
+
+.rtr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.rtr-table th,
+.rtr-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #1e293b;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.rtr-table thead {
+  position: sticky;
+  top: 0;
+}
+
+.rtr-name-h,
+.rtr-num-h {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #0f172a;
+}
+
+.rtr-num-h {
+  text-align: right;
+}
+
+.rtr-sub {
+  display: block;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #475569;
+  font-size: 0.7rem;
+}
+
+.rtr-row {
+  transition: background 0.15s;
+}
+
+.rtr-row:hover {
+  background: #1a2332;
+}
+
+.rtr-group {
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.rtr-name {
+  color: #e2e8f0;
+  min-width: 250px;
+}
+
+.rtr-code {
+  margin-left: 0.5rem;
+  font-size: 0.7rem;
+  color: #475569;
+  font-weight: 400;
+}
+
+.rtr-toggle {
+  display: inline-block;
+  width: 16px;
+  font-size: 0.6rem;
+  color: #64748b;
+  margin-right: 0.25rem;
+}
+
+.rtr-num {
+  text-align: right;
+  font-family: monospace;
+  color: #cbd5e1;
+  font-size: 0.82rem;
+}
+
+.chart-empty {
+  color: #64748b;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.chart-level-slider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.chart-level-slider input[type="range"] {
+  flex: 1;
+  max-width: 200px;
+  accent-color: #6366f1;
 }
