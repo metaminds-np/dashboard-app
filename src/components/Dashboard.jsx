@@ -54,6 +54,8 @@ export default function Dashboard() {
   const [trialData, setTrialData] = useState(null);
   const [plData, setPlData] = useState(null);
   const [bsData, setBsData] = useState(null);
+  const [now, setNow] = useState(Date.now());
+  const [offline, setOffline] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -77,6 +79,42 @@ export default function Dashboard() {
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(async () => {
+      const tokens = getTokens();
+      if (!tokens || !tokens.refresh_token) return;
+      const expiresIn = tokens.expires_at * 1000 - Date.now();
+      if (expiresIn < 120 * 1000) {
+        console.log('[Auth] Auto-refreshing token...');
+        try {
+          await refreshAccessToken();
+          setNow(Date.now());
+          setOffline(false);
+        } catch (e) {
+          console.error('[Auth] Auto-refresh failed:', e);
+          if (!navigator.onLine) setOffline(true);
+        }
+      }
+    }, 30 * 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    const online = () => setOffline(false);
+    const offline = () => setOffline(true);
+    window.addEventListener('online', online);
+    window.addEventListener('offline', offline);
+    return () => {
+      window.removeEventListener('online', online);
+      window.removeEventListener('offline', offline);
+    };
+  }, []);
 
   const reportBody = useCallback(() => {
     const body = { from_date: fromDate, to_date: toDate };
@@ -122,6 +160,7 @@ export default function Dashboard() {
     setRefreshing(true);
     try {
       await refreshAccessToken();
+      setOffline(false);
     } catch (e) {
       console.error(e);
     }
@@ -130,7 +169,7 @@ export default function Dashboard() {
 
   const tokens = getTokens();
   const expiresIn = tokens?.expires_at
-    ? Math.max(0, Math.floor((tokens.expires_at * 1000 - Date.now()) / 1000))
+    ? Math.max(0, Math.floor((tokens.expires_at * 1000 - now) / 1000))
     : 0;
   const hasRefresh = !!tokens?.refresh_token;
 
@@ -150,7 +189,9 @@ export default function Dashboard() {
         <div className="header-right">
           <span className="token-status" title={hasRefresh ? 'Refresh token available' : 'No refresh token'}>
             <span className={`status-dot ${hasRefresh ? 'has-refresh' : 'no-refresh'}`} />
-            {expiresIn > 0
+            {offline
+              ? 'Offline'
+              : expiresIn > 0
               ? `${Math.floor(expiresIn / 60)}m ${expiresIn % 60}s`
               : 'Expired'}
           </span>

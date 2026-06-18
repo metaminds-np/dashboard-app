@@ -82,19 +82,25 @@ export async function refreshAccessToken() {
   });
   const basic = btoa(`${clientId}:${clientSecret}`);
 
-  const res = await fetch(tokenUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic ${basic}`,
-    },
-    body,
-  });
+  let res;
+  try {
+    res = await fetch(tokenUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${basic}`,
+      },
+      body,
+    });
+  } catch (e) {
+    console.warn('[Auth] Network error during refresh, will retry later');
+    throw new Error('Network error — unable to refresh token');
+  }
 
   if (!res.ok) {
-    console.error('[Auth] Refresh failed, logging out');
+    console.error('[Auth] Refresh rejected by server, logging out');
     logout();
-    throw new Error('Token refresh failed');
+    throw new Error('Token refresh failed — please re-authenticate');
   }
 
   const data = await res.json();
