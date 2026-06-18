@@ -142,6 +142,21 @@ export function fetchApi(endpoint) {
   return request('GET', endpoint);
 }
 
+function toQueryString(params) {
+  const qs = new URLSearchParams();
+  Object.entries(params).forEach(([key, val]) => {
+    if (val !== undefined && val !== null && val !== '') {
+      qs.set(key, typeof val === 'object' ? JSON.stringify(val) : String(val));
+    }
+  });
+  return qs.toString();
+}
+
+export function fetchApiQuery(endpoint, params) {
+  const qstr = toQueryString(params);
+  return request('GET', qstr ? `${endpoint}?${qstr}` : endpoint);
+}
+
 export function fetchApiPost(endpoint, body) {
   return request('POST', endpoint, body);
 }

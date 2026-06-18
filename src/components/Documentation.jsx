@@ -207,11 +207,11 @@ export default function Documentation() {
             <tr><td><span className="method-badge method-get">GET</span></td><td><code>{apiBase}/accounting/reportingtags</code></td><td>List reporting tags</td></tr>
             <tr><td><span className="method-badge method-get">GET</span></td><td><code>{apiBase}/accounting/groups</code></td><td>List accounting groups</td></tr>
             <tr><td><span className="method-badge method-get">GET</span></td><td><code>{apiBase}/accounting/accounts</code></td><td>List accounts</td></tr>
-            <tr><td><span className="method-badge method-post">POST</span></td><td><code>{apiBase}/accounting/reports/ledgerbalances</code></td><td>Ledger balances report</td></tr>
-            <tr><td><span className="method-badge method-post">POST</span></td><td><code>{apiBase}/accounting/reports/groupbalances</code></td><td>Group balances report</td></tr>
-            <tr><td><span className="method-badge method-post">POST</span></td><td><code>{apiBase}/accounting/reports/trialbalance</code></td><td>Trial balance report</td></tr>
-            <tr><td><span className="method-badge method-post">POST</span></td><td><code>{apiBase}/accounting/reports/profitloss</code></td><td>Profit & loss report</td></tr>
-            <tr><td><span className="method-badge method-post">POST</span></td><td><code>{apiBase}/accounting/reports/balancesheet</code></td><td>Balance sheet report</td></tr>
+            <tr><td><span className="method-badge method-get">GET</span></td><td><code>{apiBase}/accounting/reports/ledgerbalances</code></td><td>Ledger balances report</td></tr>
+            <tr><td><span className="method-badge method-get">GET</span></td><td><code>{apiBase}/accounting/reports/groupbalances</code></td><td>Group balances report</td></tr>
+            <tr><td><span className="method-badge method-get">GET</span></td><td><code>{apiBase}/accounting/reports/trialbalance</code></td><td>Trial balance report</td></tr>
+            <tr><td><span className="method-badge method-get">GET</span></td><td><code>{apiBase}/accounting/reports/profitloss</code></td><td>Profit & loss report</td></tr>
+            <tr><td><span className="method-badge method-get">GET</span></td><td><code>{apiBase}/accounting/reports/balancesheet</code></td><td>Balance sheet report</td></tr>
           </tbody>
         </table>
       </section>

@@ -44,7 +44,7 @@ const ENDPOINTS = [
   {
     id: 'ledger_balances',
     label: 'Ledger Balances',
-    method: 'POST',
+    method: 'GET',
     path: '/accounting/reports/ledgerbalances',
     description: 'Get ledger balances report',
     params: [
@@ -57,7 +57,7 @@ const ENDPOINTS = [
   {
     id: 'group_balances',
     label: 'Group Balances',
-    method: 'POST',
+    method: 'GET',
     path: '/accounting/reports/groupbalances',
     description: 'Get group balances report',
     params: [
@@ -70,7 +70,7 @@ const ENDPOINTS = [
   {
     id: 'trial_balance',
     label: 'Trial Balance',
-    method: 'POST',
+    method: 'GET',
     path: '/accounting/reports/trialbalance',
     description: 'Get trial balance report',
     params: [
@@ -83,7 +83,7 @@ const ENDPOINTS = [
   {
     id: 'profit_loss',
     label: 'Profit & Loss',
-    method: 'POST',
+    method: 'GET',
     path: '/accounting/reports/profitloss',
     description: 'Get profit & loss report',
     params: [
@@ -96,7 +96,7 @@ const ENDPOINTS = [
   {
     id: 'balance_sheet',
     label: 'Balance Sheet',
-    method: 'POST',
+    method: 'GET',
     path: '/accounting/reports/balancesheet',
     description: 'Get balance sheet report',
     params: [

@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isAuthenticated, logout, fetchApi, fetchApiPost, getTokens, refreshAccessToken } from '../services/api';
+import { isAuthenticated, logout, fetchApi, fetchApiQuery, getTokens, refreshAccessToken } from '../services/api';
 import Playground from './Playground';
 import Documentation from './Documentation';
 import ReportTreeTable from './ReportTreeTable';
@@ -96,11 +96,11 @@ export default function Dashboard() {
 
     try {
       const [ledger, group, trial, pl, bs] = await Promise.all([
-        fetchApiPost('/accounting/reports/ledgerbalances', body),
-        fetchApiPost('/accounting/reports/groupbalances', body),
-        fetchApiPost('/accounting/reports/trialbalance', body),
-        fetchApiPost('/accounting/reports/profitloss', body),
-        fetchApiPost('/accounting/reports/balancesheet', body),
+        fetchApiQuery('/accounting/reports/ledgerbalances', body),
+        fetchApiQuery('/accounting/reports/groupbalances', body),
+        fetchApiQuery('/accounting/reports/trialbalance', body),
+        fetchApiQuery('/accounting/reports/profitloss', body),
+        fetchApiQuery('/accounting/reports/balancesheet', body),
       ]);
       setLedgerData(ledger);
       setGroupData(group);
